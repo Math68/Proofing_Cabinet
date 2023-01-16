@@ -23,7 +23,7 @@ const int LedGreen_IO = 13;
 
 const int ThermoSwitch_1 = 33;
 const int ThermoSwitch_2 = 25;
-const int TempSensor = 26;
+const int TempSensor = 32; // it was 26 ADC2 but is in use by Wi-Fi, has to be at ADC1
 const int Synchronisation = 27;
 const int HeaterCtrl = 14;
 const int RelayPhase = 2;
@@ -31,7 +31,7 @@ const int RelayNeutral = 19;
 const int RelaySerie=17;
 
 int TempValue=0;
-int TempMax=32;   // equivalent to °C
+int TempMax=30;   // equivalent to °C
 int TempMin=27;
 
 //enum Checkstates {START=0, SETHEATER, GETTEMP, WAIT};
@@ -50,9 +50,9 @@ long PreviousMillis=0;
 
 //bool Flipper=0;
 
-int ESP32_ADC_Offset=20;
+int ESP32_ADC_Offset=2;
 int Counter=-1;
 
-void GetCabinentTemp();
+void GetCabinetTemp();
 void SetPowerAndLed();
 void SetHeater(enum Power _Power);
