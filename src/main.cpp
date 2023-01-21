@@ -97,6 +97,21 @@ void setup()
     request->send(SPIFFS, "/script.js", "text/javascript");
   });
 
+  server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+    request->send(SPIFFS, "/index.html", "text/html");
+  });
+
+  server.on("/thermo.html", HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+    request->send(SPIFFS, "/thermo.html", "text/html");
+  });
+
+  server.on("/power.html", HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+    request->send(SPIFFS, "/power.html", "text/html");
+  });
+
   server.on("/readCabinetTempID", HTTP_GET, [](AsyncWebServerRequest *request)
   {
     //int val = analogRead(TempSensor);
