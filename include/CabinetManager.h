@@ -34,9 +34,6 @@ int TempValue=0;
 int TempMax=30;   // equivalent to °C
 int TempMin=27;
 
-//enum Checkstates {START=0, SETHEATER, GETTEMP, WAIT};
-//Checkstates CHECKSTATE = START;
-
 enum RunMode {COOLING=0,HEATING};
 RunMode RUNMODE = COOLING;
 

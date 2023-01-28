@@ -1,13 +1,73 @@
 
 #include "CabinetManager.h"
+#include <Arduino.h>
 #include <ESPAsyncWebServer.h>
+#include <AsyncTCP.h>
 #include <SPIFFS.h>
+//#include <ArduinoJson.h>
 
 // Replace with your network credentials
 const char* ssid = "Freebox-372EBF";
 const char* password = "mfrfzq7db9q43xzrqmv49b";
 
+//const char* ssid = "EMCP-Guest";
+//const char* password = "92*Shir#kh@n!07";
+
 AsyncWebServer server(80);
+AsyncWebSocket ws("/ws");
+
+String RunModeState="Cooling";
+
+void notifyClients(String Data)
+{
+  ws.textAll(Data);
+}
+
+void handelWebSocketMessage(void *arg, uint8_t *data, size_t len){
+  AwsFrameInfo *info = (AwsFrameInfo*)arg;
+  if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT){
+
+    data[len] = 0;
+    
+    if(strcmp((char*)data, "RunModeState")==0){
+      notifyClients(RunModeState);
+    } else if (strcmp((char*)data, "powerOff")==0){
+      ///TODO
+    }
+  }
+}
+
+void sendInitialData(AsyncWebSocketClient *client){
+  if (RUNMODE == COOLING) {
+    client->text("Cooling");
+  } else if (RUNMODE == HEATING) {
+    client->text("Heating");
+  }
+
+  String CabinetTemp = "temp:" + String(TempValue);
+  client->text(CabinetTemp);
+}
+
+void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len){
+  switch(type){
+    case WS_EVT_CONNECT:
+      sendInitialData(client);
+    break;
+    case WS_EVT_DISCONNECT:
+    break;
+    case WS_EVT_DATA:
+      handelWebSocketMessage(arg, data, len);
+    break;
+    case WS_EVT_PONG:
+    case WS_EVT_ERROR:
+    break;
+  }
+}
+
+void initWebSocket(){
+  ws.onEvent(onEvent);
+  server.addHandler(&ws);
+}
 
 void setup()
 {
@@ -81,6 +141,8 @@ void setup()
   debug("Adresse IP: ");
   debugln(WiFi.localIP());
 
+  initWebSocket();
+
   // ********** Server **********
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
   {
@@ -112,28 +174,14 @@ void setup()
     request->send(SPIFFS, "/power.html", "text/html");
   });
 
-  server.on("/readCabinetTempID", HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-    //int val = analogRead(TempSensor);
-    //int val = TempValue; 
-    String CabinetTempID = String(TempValue);
-    request->send(200, "text/plain", CabinetTempID);
-
-  debugln("devrait affiche la temperature");
-  debugln(TempValue);
-  });
-
-   server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-    //digitalWrite(Heat);
-  });
-
+  server.serveStatic("/",SPIFFS, "/");
   server.begin();
   debugln("Serveur actif!");
 }
 
 void loop()
 {
+  ws.cleanupClients();
   // debugln("--------------------");
   // debugln("Passage dans Loop");
   GPIOController(PLedRed, LedRed_IO);
@@ -149,6 +197,9 @@ void loop()
 
     GetCabinetTemp();
     SetPowerAndLed();
+
+    String CabinetTemp = "temp:" + String(TempValue);
+    notifyClients(CabinetTemp);
   }
 }
 
@@ -192,6 +243,8 @@ void SetPowerAndLed()
     if (TempValue >= TempMax)
     {
       RUNMODE = COOLING;
+      // Notify
+      notifyClients("Cooling");
       SetLedMode(PLedRed, FLASH_THREE_INV);
       SetLedMode(PLedGreen, OFF);
       SetHeater(PWR_OFF);
@@ -202,6 +255,8 @@ void SetPowerAndLed()
     if (TempValue <= TempMin)
     {
       RUNMODE = HEATING;
+      // Notify
+      notifyClients("Heating");
       SetLedMode(PLedRed, ON);
       SetLedMode(PLedGreen, OFF);
       SetHeater(PWR_HIGH);
