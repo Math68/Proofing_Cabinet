@@ -4,7 +4,6 @@
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
 #include <SPIFFS.h>
-//#include <ArduinoJson.h>
 
 // Replace with your network credentials
 const char* ssid = "Freebox-372EBF";
@@ -266,10 +265,6 @@ void SetPowerAndLed()
 
 void SetHeater(enum Power _Power)
 {
-  //if(POWER != ACTUALPWR)
-  //{
-//    ACTUALPWR = POWER;
-
     switch (_Power)
     {
     case PWR_OFF:
@@ -306,5 +301,4 @@ void SetHeater(enum Power _Power)
       delay(100);
       break;
     }
- // }
 }
