@@ -53,7 +53,6 @@ setInterval(function getData()
   }
 
   function onMessage(event) {
-
     if (event.data == "Cooling"){
       document.getElementById("RunModePicture").getAttributeNode("src").value = "/Cooling.png";
     }
