@@ -1,57 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
+    <head>
     <title>Proofing Cabinet</title>
     <meta name='viewport' content='width=device-width, initial-scale=1' charset="'UTF-8"/>
     <link rel="stylesheet" type="text/css" href="w3.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="text/javascript" src="script.js"></script>
     <script src='https://kit.fontawesome.com/408a11d993.js' crossorigin='anonymous'></script>
-</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="script.js"></script>
+    </head>
 
-<body class="w3-animate-opacity">
+    <body class="w3-animate-opacity">
 
-<header class="w3-bar w3-section w3-text-blue-grey w3-center">
-    <h1><b>Proofing Cabinet</b></h1>
-</header>
+        <header class="w3-bar w3-section w3-text-blue-grey w3-center">
+            <h1><b>Proofing Cabinet</b></h1>
+        </header>
 
-
-
-<div class="w3-bar w3-blue-grey">
-    <div class="w3-col" style="width:30%">
-        <p></p>
-    </div>
-    <div class="w3-col w3-center" style="width:20%">
-        <p><a href="thermo.html"><i class="fas fa-thermometer-quarter w3-xxlarge"></i></a></p>
-        <p>Temp</p>
-    </div>
-    <div class="w3-col w3-center" style="width:20%">
-        <p><a href="power.html"><i class="material-icons" style="font-size:30px">settings_power</i></a></p>
-        <p>Power</p>
-    </div>
-    <div class="w3-col w3-center" style="width:20%">
-    </div>
-</div>
-
-<div class="w3-container w3-padding">
-<div class="w3-panel w3-card w3-center">
-
-<!-- <div class="w3-container w3-section w3-center w3-text-blue-grey"> -->
-    <div class="w3-center w3-round-xlarge">            
-        <div class="w3-col w3-cell w3-borderr" style="width:50%">
-            <h3>Run Mode</h3>
-            <img id="RunModePicture" src="" style="width:150px">
+        <!-- Menu -->
+        <div class="w3-bar w3-blue-grey">
+            <div class="w3-col" style="width:30%">
+                <p></p>
+            </div>
+            <div class="w3-col w3-center" style="width:20%">
+                <p><a href="thermo.html"><i class="fas fa-thermometer-quarter w3-xxlarge"></i></a></p>
+                <p>Temp</p>
+            </div>
+            <div class="w3-col w3-center" style="width:20%">
+                <p><a href="power.html"><i class="material-icons" style="font-size:30px">settings_power</i></a></p>
+                <p>Power</p>
+            </div>
+            <div class="w3-col w3-center" style="width:20%">
+            </div>
         </div>
-        <div class="w3-col w3-cell w3-borderr" style="width:50%">
-            <h3> Temp &#176C</h3>
-            <p class="w3-xxlarge"><span id="CabinetTempID">0</span></p>
+
+        <!-- Contenu -->
+        <div class="w3-container w3-padding">
+            <div class="w3-panel w3-card w3-center">
+                <div class="w3-center w3-round-xlarge">            
+                    <div class="w3-col w3-cell w3-borderr" style="width:50%">
+                        <h3>Run Mode</h3>
+                        <img id="RunModePicture" src="" style="width:150px">
+                    </div>
+                    
+                    <div class="w3-col w3-cell w3-borderr" style="width:50%">
+                        <h3> Temp &#176C</h3>
+                        <p class="w3-xxlarge"><span id="CabinetTempID">0</span></p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-<!-- </div> -->
-
-</div>
-</div>
-
-</body>
+    </body>
 </html>

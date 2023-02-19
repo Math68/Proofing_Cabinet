@@ -1,4 +1,7 @@
-#include "LedController.c"
+#pragma once
+
+#include "LedController.h"
+#include "websocket.h"
 
 #define DEBUG 1
 
@@ -30,26 +33,30 @@ const int RelayPhase = 2;
 const int RelayNeutral = 19;
 const int RelaySerie=17;
 
-int TempValue=0;
-int TempMax=30;   // equivalent to °C
-int TempMin=27;
+extern int TempValue;
+extern int TempMax;   // equivalent to °C
+extern int TempMin;
+
+extern String RunModeState;
 
 enum RunMode {COOLING=0,HEATING};
-RunMode RUNMODE = COOLING;
+extern RunMode RUNMODE;
 
 enum Power {PWR_OFF=0, PWR_LOW, PWR_MID, PWR_HIGH};
 //Power ACTUALPWR=PWR_MID, POWER=PWR_OFF;
 
-struct LedParam LedRed, LedGreen, *PLedRed=&LedRed, *PLedGreen=&LedGreen;
+extern struct LedParam LedRed, LedGreen;
 
-long CabinetTimeLapse=0;
-long PreviousMillis=0;
+extern long CabinetTimeLapse;
+extern long PreviousMillis;
 
 //bool Flipper=0;
 
-int ESP32_ADC_Offset=2;
-int Counter=-1;
+extern int ESP32_ADC_Offset;
+extern int Counter;
+
+extern int TresholdLow;
 
 void GetCabinetTemp();
-void SetPowerAndLed();
+void SetPowerAndLed(CabinetWebsocket *websocket);
 void SetHeater(enum Power _Power);

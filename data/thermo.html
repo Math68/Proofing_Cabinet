@@ -1,63 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-    <title>Proofing Cabinet</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1' charset="'UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="w3.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="text/javascript" src="script.js"></script>
-    <script src='https://kit.fontawesome.com/408a11d993.js' crossorigin='anonymous'></script>
-</head>
+    <head>
+        <title>Proofing Cabinet</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1' charset="'UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="w3.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src='https://kit.fontawesome.com/408a11d993.js' crossorigin='anonymous'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/javascript" src="script.js"></script>
+    </head>
 
-<body class="w3-animate-opacity w3-text-blue-grey">
+    <body class="w3-animate-opacity w3-text-blue-grey">
 
-    <header class="w3-bar w3-section w3-text-blue-grey w3-center">
-        <h1><b>Proofing Cabinet</b></h1>
-    </header>
+        <header class="w3-bar w3-section w3-text-blue-grey w3-center">
+            <h1><b>Proofing Cabinet</b></h1>
+        </header>
     
-<!-- Comment -->
-    <div class="w3-bar w3-center w3-blue-grey">
-        <a href="index.html"><p><i class="fas fa-home" style="font-size:30px"></i></p></a>
-        <p><b>Home</b></p> 
-    </div>
+        <!-- Menu -->
+        <div class="w3-bar w3-center w3-blue-grey">
+            <a href="index.html"><p><i class="fas fa-home" style="font-size:30px"></i></p></a>
+            <p><b>Home</b></p> 
+        </div>
 
-    <div class="w3-container w3-center w3-text-blue-grey">
-        <h3>Treshold settings:</h3>
-    </div>
+        <div class="w3-container w3-center w3-text-blue-grey">
+            <h3><b>Treshold settings:</b></h3>
+        </div>
 
-
-    <div class="w3-container w3-padding">
-
-    <div class="w3-panel w3-card w3-center" >
+        <div class="w3-container w3-padding">
+            <div class="w3-panel w3-card w3-center" >
+                <div class="w3-col" style="width:50%">
+                    <img src="Cooling.png" style="max-width:150px">    
+                </div>
+                <div class="w3-col w3-left-align" style="width:50%">
+                    <p>Low: <span id="ActualTresholdLowValue">%TresholdLowValue%</span></p>
+                    <p><input type="number" step="1" id="TresholdLowInput" name="TresholdLowInput" min="25" max="29">
+                    <button id="BTsaveTresholdLow" class="w3-text-blue-grey w3-white w3-border">Save</button></p>
+                </div>
+            </div>
     
-        <div class="w3-col" style="width:50%">
-            <img src="Cooling.png" style="max-width:150px">    
+            <div class="w3-panel w3-card w3-center">
+                <div class="w3-col" style="width:50%">
+                    <img src="Heating.png" style="max-width:150px">    
+                </div>
+                <div class="w3-col w3-left-align" style="width:50%">
+                    <p>High: <span id="ActualTresholdHighValue">%TresholdHighValue%</span></p>
+                    <p><input type="number" step="1" name="TresholdHighInput" min="30" max="38">
+                    <button id="BTsaveTresholdHigh" class="w3-text-blue-grey w3-white w3-border">Save</button></p>
+                </div>
+            </div>
         </div>
-        <div class="w3-col w3-left-align" style="width:50%">
-            <p>Low:</p>
-            <form action="/get">
-                <input type="number" step="1" name="TresholdLow" min="25" max="38">
-                <input type="submit" value="Save" class="w3-text-blue-grey w3-white w3-border">
-            </form>
-        </div>
-    </div>
-    
-    <div class="w3-panel w3-card w3-center">
-        <div class="w3-col" style="width:50%">
-            <img src="Heating.png" style="max-width:150px">    
-        </div>
-
-        <div class="w3-col w3-left-align" style="width:50%">
-            <p>High:</p>
-            <form action="/get">
-                <input type="number" step="1" name="TresholdLow" min="25" max="38">
-                <input type="submit" value="Save" class="w3-text-blue-grey w3-white w3-border">
-        </div>
-    </div>
-
-    </div>
-
-
-</body>
+    </body>
 </html>

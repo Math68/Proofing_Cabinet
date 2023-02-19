@@ -22,6 +22,8 @@
 //  }
 //
 
+#pragma once
+
 #include <Arduino.h>
 
 #define _ON 0
