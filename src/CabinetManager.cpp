@@ -16,6 +16,7 @@ int ESP32_ADC_Offset = 2;
 int Counter = -1;
 
 int TresholdLow = 25;
+int TresholdHigh = 30;
 
 void GetCabinetTemp()
 {

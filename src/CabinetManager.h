@@ -56,6 +56,7 @@ extern int ESP32_ADC_Offset;
 extern int Counter;
 
 extern int TresholdLow;
+extern int TresholdHigh;
 
 void GetCabinetTemp();
 void SetPowerAndLed(CabinetWebsocket *websocket);

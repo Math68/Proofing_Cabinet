@@ -45,27 +45,36 @@ void CabinetWebsocket::CabinetWebsocket::loop()
 void CabinetWebsocket::handleWebSocketMessage(void *arg, uint8_t *data, size_t len)
 {
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
-  if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT){
+  if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
+  {
 
     data[len] = 0;
-
     Serial.println(String((const char *)data));
     
-    if(strcmp((char*)data, "RunModeState")==0){
+    if(strcmp((char*)data, "RunModeState")==0)
+    {
       wsinst->notifyClients(RunModeState);
-    } else if (strcmp((char*)data, "powerOff")==0){
+
+    } else if (strcmp((char*)data, "powerOff")==0)
+    {
       ///TODO
-    } else if (strncmp((const char *)data, "SaveTresholdLow:", 16)==0) {
+      
+    } else if (strncmp((const char *)data, "SaveTresholdLow:", 16)==0)
+    {
       char *strValue = (char*)(data + 16);
       TresholdLow = atoi(strValue);
-
       notifyClients("TresholdLow:" + String(TresholdLow, 10));
 
       //todo: utiliser val
 
       //char str[512];
       //itoa(val, str, 10);
-    }
+    } else if (strncmp((const char *)data, "SaveTresholdHigh:", 17)==0)
+    {
+      char *strValue = (char*)(data + 17);
+      TresholdHigh = atoi(strValue);
+      notifyClients("TresholdHigh:" + String(TresholdHigh, 10));
+    } 
   }
 }
 
@@ -81,4 +90,7 @@ void CabinetWebsocket::sendInitialData(AsyncWebSocketClient *client)
   client->text(CabinetTemp);
 
   notifyClients("TresholdLow:" + String(TresholdLow, 10));
+
+  notifyClients("TresholdHigh:" + String(TresholdHigh, 10));
+
 }
