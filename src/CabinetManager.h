@@ -34,8 +34,11 @@ const int RelayNeutral = 19;
 const int RelaySerie=17;
 
 extern int TempValue;
-extern int TempMax;   // equivalent to °C
-extern int TempMin;
+//extern int TempMax;   // equivalent to °C
+//extern int TempMin;
+extern int TresholdLow;
+extern int TresholdHigh;
+
 
 extern String RunModeState;
 
@@ -50,14 +53,13 @@ extern struct LedParam LedRed, LedGreen;
 extern long CabinetTimeLapse;
 extern long PreviousMillis;
 
-//bool Flipper=0;
-
 extern int ESP32_ADC_Offset;
 extern int Counter;
-
-extern int TresholdLow;
-extern int TresholdHigh;
 
 void GetCabinetTemp();
 void SetPowerAndLed(CabinetWebsocket *websocket);
 void SetHeater(enum Power _Power);
+void SaveTresholdLowToEEPROM(int THL);
+void SaveTresholdHighToEEPROM(int THH);
+void SetTreshold();
+void InitMemory();

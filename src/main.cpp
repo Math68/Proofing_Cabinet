@@ -3,6 +3,9 @@
 #include "websocket.h"
 #include <AsyncTCP.h>
 #include <SPIFFS.h>
+#include <Preferences.h>
+
+Preferences ESP32_FlashMemory;
 
 // Replace with your network credentials
 const char* ssid = "Freebox-372EBF";
@@ -19,7 +22,15 @@ void setup()
 {
   // ********** Serial **********
   Serial.begin(115200);
-  
+
+  // Preferences Memory
+  ESP32_FlashMemory.begin("TresholdValue",false);
+  ESP32_FlashMemory.putInt("THL",255);
+  ESP32_FlashMemory.putInt("THH",255);
+  //TresholdLow = ESP32_FlashMemory.getInt("THL",25);
+  //TresholdHigh = ESP32_FlashMemory.getInt("THH",28); 
+
+
   // ********** GPIO **********
   // Heater Relais
   pinMode(RelaySerie, OUTPUT);
@@ -40,6 +51,8 @@ void setup()
   pinMode(TempSensor, INPUT);
   pinMode(Synchronisation, INPUT);
   pinMode(HeaterCtrl, INPUT);
+
+  // ******* FLASH MEMORY ********
   
   // ********** Set ADC **********
   analogSetAttenuation(ADC_6db);
@@ -119,7 +132,6 @@ void setup()
   {
     request->send(SPIFFS, "/power.html", "text/html");
   });
-
  
   server.serveStatic("/",SPIFFS, "/");
   server.begin();

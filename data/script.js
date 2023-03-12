@@ -12,7 +12,7 @@ function powerOff(){
     websocket = new WebSocket(gateway);
     websocket.onopen    = onOpen;
     websocket.onclose   = onClose;
-    websocket.onmessage = onMessage;
+    websocket.onmessage = onServerMessage;
   }
 
   function getRunModeState(){
@@ -28,7 +28,7 @@ function powerOff(){
     setTimeout(initWebSocket, 2000);
   }
 
-  function onMessage(event) {
+  function onServerMessage(event) {
     if (event.data == "Cooling"){
       //document.getElementById("RunModePicture").getAttributeNode("src").value = "/Cooling.png";
       /* let element = document.getElementById("RunModePicture");

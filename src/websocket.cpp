@@ -23,7 +23,7 @@ void CabinetWebsocket::onWSEvent(AsyncWebSocket *server, AsyncWebSocketClient *c
     case WS_EVT_DISCONNECT:
     break;
     case WS_EVT_DATA:
-      wsinst->handleWebSocketMessage(arg, data, len);
+      wsinst->handleClientMessage(arg, data, len);
     break;
     case WS_EVT_PONG:
     case WS_EVT_ERROR:
@@ -42,7 +42,7 @@ void CabinetWebsocket::CabinetWebsocket::loop()
     ws->cleanupClients();
 }
 
-void CabinetWebsocket::handleWebSocketMessage(void *arg, uint8_t *data, size_t len)
+void CabinetWebsocket::handleClientMessage(void *arg, uint8_t *data, size_t len)
 {
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
   if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
@@ -62,18 +62,39 @@ void CabinetWebsocket::handleWebSocketMessage(void *arg, uint8_t *data, size_t l
     } else if (strncmp((const char *)data, "SaveTresholdLow:", 16)==0)
     {
       char *strValue = (char*)(data + 16);
-      TresholdLow = atoi(strValue);
-      notifyClients("TresholdLow:" + String(TresholdLow, 10));
+      //TresholdLow = atoi(strValue);
+      int TempVal = atoi(strValue);
 
+      if(TempVal>25 && TempVal<32){
+        notifyClients("TresholdLow:" + String(TempVal, 10));
+        SaveTresholdLowToEEPROM(TempVal);
+      }
+      else{
+        TempVal=25;
+        notifyClients("TresholdLow:" + String(TempVal, 10));
+        SaveTresholdLowToEEPROM(TempVal);
+      }
       //todo: utiliser val
-
       //char str[512];
       //itoa(val, str, 10);
+
     } else if (strncmp((const char *)data, "SaveTresholdHigh:", 17)==0)
     {
       char *strValue = (char*)(data + 17);
-      TresholdHigh = atoi(strValue);
-      notifyClients("TresholdHigh:" + String(TresholdHigh, 10));
+      //TresholdHigh = atoi(strValue);
+      int TempVal = atoi(strValue);
+      if(TempVal>28 && TempVal<35){
+        notifyClients("TresholdHigh:" + String(TempVal, 10));
+        SaveTresholdHighToEEPROM(TempVal);
+      }
+      else{
+        TempVal=28;
+        notifyClients("TresholdHigh:" + String(TempVal, 10));
+        SaveTresholdHighToEEPROM(TempVal);
+      }
+      //SaveTresholdHighToFlash(TresholdHigh);
+      //notifyClients("TresholdHigh:" + String(TresholdHigh, 10));
+      
     } 
   }
 }
@@ -89,7 +110,7 @@ void CabinetWebsocket::sendInitialData(AsyncWebSocketClient *client)
   String CabinetTemp = "temp:" + String(TempValue);
   client->text(CabinetTemp);
 
-  notifyClients("TresholdLow:" + String(TresholdLow, 10));
+  notifyClients("TresholdLow:" + String(TresholdLow, 10));  // TresholLow en decimal, d'ou le 10 pour la base 10 
 
   notifyClients("TresholdHigh:" + String(TresholdHigh, 10));
 

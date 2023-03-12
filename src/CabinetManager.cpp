@@ -1,8 +1,12 @@
 #include "CabinetManager.h"
 
 int TempValue = 0;
-int TempMax = 30;
-int TempMin = 27;
+int TempMax;
+int TempMin;
+int TresholdLow = 25;
+int TresholdHigh = 27;
+//int ActualTresholdLow;
+//int ActualTresholdHigh;
 
 String RunModeState = "Cooling";
 RunMode RUNMODE = COOLING;
@@ -14,9 +18,6 @@ long PreviousMillis = 0;
 
 int ESP32_ADC_Offset = 2;
 int Counter = -1;
-
-int TresholdLow = 25;
-int TresholdHigh = 30;
 
 void GetCabinetTemp()
 {
@@ -55,7 +56,7 @@ void SetPowerAndLed(CabinetWebsocket *websocket)
   
   if (RUNMODE == HEATING)
   {
-    if (TempValue >= TempMax)
+    if (TempValue >= TresholdHigh)
     {
       RUNMODE = COOLING;
       // Notify
@@ -67,7 +68,7 @@ void SetPowerAndLed(CabinetWebsocket *websocket)
   }
   else if (RUNMODE == COOLING)
   {
-    if (TempValue <= TempMin)
+    if (TempValue <= TresholdLow)
     {
       RUNMODE = HEATING;
       // Notify
@@ -117,4 +118,16 @@ void SetHeater(enum Power _Power)
       delay(100);
       break;
     }
+}
+
+void SaveTresholdLowToEEPROM(int THL){
+}
+
+void SaveTresholdHighToEEPROM(int THH){
+}
+
+void SetTreshold(){
+}
+
+void InitMemory(){
 }
