@@ -3,9 +3,9 @@
 #include "websocket.h"
 #include <AsyncTCP.h>
 #include <SPIFFS.h>
-#include <Preferences.h>
+//#include <Preferences.h>
 
-Preferences ESP32_FlashMemory;
+//Preferences NVS_Lib;
 
 // Replace with your network credentials
 const char* ssid = "Freebox-372EBF";
@@ -22,14 +22,6 @@ void setup()
 {
   // ********** Serial **********
   Serial.begin(115200);
-
-  // Preferences Memory
-  ESP32_FlashMemory.begin("TresholdValue",false);
-  ESP32_FlashMemory.putInt("THL",255);
-  ESP32_FlashMemory.putInt("THH",255);
-  //TresholdLow = ESP32_FlashMemory.getInt("THL",25);
-  //TresholdHigh = ESP32_FlashMemory.getInt("THH",28); 
-
 
   // ********** GPIO **********
   // Heater Relais
@@ -53,7 +45,11 @@ void setup()
   pinMode(HeaterCtrl, INPUT);
 
   // ******* FLASH MEMORY ********
-  
+  NVS_Lib.begin("STV",false); // Stored Treshold Value
+  NVS_Lib.clear();
+  TresholdLow = NVS_Lib.getInt("THL",22);
+  TresholdHigh = NVS_Lib.getInt("THH",25);
+
   // ********** Set ADC **********
   analogSetAttenuation(ADC_6db);
   analogReadResolution(12);

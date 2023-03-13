@@ -67,12 +67,12 @@ void CabinetWebsocket::handleClientMessage(void *arg, uint8_t *data, size_t len)
 
       if(TempVal>25 && TempVal<32){
         notifyClients("TresholdLow:" + String(TempVal, 10));
-        SaveTresholdLowToEEPROM(TempVal);
+        SaveTresholdLow(TempVal);
       }
       else{
         TempVal=25;
         notifyClients("TresholdLow:" + String(TempVal, 10));
-        SaveTresholdLowToEEPROM(TempVal);
+        SaveTresholdLow(TempVal);
       }
       //todo: utiliser val
       //char str[512];
@@ -85,12 +85,12 @@ void CabinetWebsocket::handleClientMessage(void *arg, uint8_t *data, size_t len)
       int TempVal = atoi(strValue);
       if(TempVal>28 && TempVal<35){
         notifyClients("TresholdHigh:" + String(TempVal, 10));
-        SaveTresholdHighToEEPROM(TempVal);
+        SaveTresholdHigh(TempVal);
       }
       else{
         TempVal=28;
         notifyClients("TresholdHigh:" + String(TempVal, 10));
-        SaveTresholdHighToEEPROM(TempVal);
+        SaveTresholdHigh(TempVal);
       }
       //SaveTresholdHighToFlash(TresholdHigh);
       //notifyClients("TresholdHigh:" + String(TresholdHigh, 10));

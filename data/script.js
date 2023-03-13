@@ -80,8 +80,6 @@ function powerOff(){
       let v = $('input[name=TresholdHighInput]').val()
       websocket.send("SaveTresholdHigh:" + v);
     });
-
-
   });
 
 

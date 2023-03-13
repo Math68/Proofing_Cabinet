@@ -2,6 +2,9 @@
 
 #include "LedController.h"
 #include "websocket.h"
+#include "Preferences.h"
+
+extern Preferences NVS_Lib;
 
 #define DEBUG 1
 
@@ -34,11 +37,8 @@ const int RelayNeutral = 19;
 const int RelaySerie=17;
 
 extern int TempValue;
-//extern int TempMax;   // equivalent to °C
-//extern int TempMin;
 extern int TresholdLow;
 extern int TresholdHigh;
-
 
 extern String RunModeState;
 
@@ -46,7 +46,6 @@ enum RunMode {COOLING=0,HEATING};
 extern RunMode RUNMODE;
 
 enum Power {PWR_OFF=0, PWR_LOW, PWR_MID, PWR_HIGH};
-//Power ACTUALPWR=PWR_MID, POWER=PWR_OFF;
 
 extern struct LedParam LedRed, LedGreen;
 
@@ -59,7 +58,5 @@ extern int Counter;
 void GetCabinetTemp();
 void SetPowerAndLed(CabinetWebsocket *websocket);
 void SetHeater(enum Power _Power);
-void SaveTresholdLowToEEPROM(int THL);
-void SaveTresholdHighToEEPROM(int THH);
-void SetTreshold();
-void InitMemory();
+void SaveTresholdLow(int THL);
+void SaveTresholdHigh(int THH);

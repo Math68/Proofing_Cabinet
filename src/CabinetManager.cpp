@@ -1,12 +1,10 @@
 #include "CabinetManager.h"
 
+Preferences NVS_Lib;
+
 int TempValue = 0;
-int TempMax;
-int TempMin;
-int TresholdLow = 25;
-int TresholdHigh = 27;
-//int ActualTresholdLow;
-//int ActualTresholdHigh;
+int TresholdLow; //= 22;
+int TresholdHigh; //= 27;
 
 String RunModeState = "Cooling";
 RunMode RUNMODE = COOLING;
@@ -120,14 +118,14 @@ void SetHeater(enum Power _Power)
     }
 }
 
-void SaveTresholdLowToEEPROM(int THL){
+void SaveTresholdLow(int _THL)
+{
+  NVS_Lib.putInt("THL",_THL);
+  TresholdLow=_THL;
 }
 
-void SaveTresholdHighToEEPROM(int THH){
-}
-
-void SetTreshold(){
-}
-
-void InitMemory(){
+void SaveTresholdHigh(int _THH)
+{
+  NVS_Lib.putInt("THH",_THH);
+  TresholdHigh=_THH;
 }
