@@ -3,9 +3,6 @@
 #include "websocket.h"
 #include <AsyncTCP.h>
 #include <SPIFFS.h>
-//#include <Preferences.h>
-
-//Preferences NVS_Lib;
 
 // Replace with your network credentials
 const char* ssid = "Freebox-372EBF";
@@ -46,9 +43,10 @@ void setup()
 
   // ******* FLASH MEMORY ********
   NVS_Lib.begin("STV",false); // Stored Treshold Value
-  NVS_Lib.clear();
-  TresholdLow = NVS_Lib.getInt("THL",22);
-  TresholdHigh = NVS_Lib.getInt("THH",25);
+  //NVS_Lib.clear();
+  TresholdLow = NVS_Lib.getInt("THL",23);
+  TresholdHigh = NVS_Lib.getInt("THH",27);
+  NVS_Lib.end();
 
   // ********** Set ADC **********
   analogSetAttenuation(ADC_6db);
@@ -60,7 +58,7 @@ void setup()
 
   // ********** Init Variable **********
   SetHeater(PWR_OFF);
-  CabinetTimeLapse = 15000;
+  CabinetTimeLapse = 10000;
   PreviousMillis = millis();
 
   // ********** Spiffs **********

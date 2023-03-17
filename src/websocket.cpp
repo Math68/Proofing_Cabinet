@@ -62,39 +62,27 @@ void CabinetWebsocket::handleClientMessage(void *arg, uint8_t *data, size_t len)
     } else if (strncmp((const char *)data, "SaveTresholdLow:", 16)==0)
     {
       char *strValue = (char*)(data + 16);
-      //TresholdLow = atoi(strValue);
       int TempVal = atoi(strValue);
 
-      if(TempVal>25 && TempVal<32){
-        notifyClients("TresholdLow:" + String(TempVal, 10));
-        SaveTresholdLow(TempVal);
-      }
-      else{
+      if(TempVal<25)
         TempVal=25;
-        notifyClients("TresholdLow:" + String(TempVal, 10));
-        SaveTresholdLow(TempVal);
-      }
-      //todo: utiliser val
-      //char str[512];
-      //itoa(val, str, 10);
+      else if(TempVal>31)
+        TempVal=31;
+      
+      notifyClients("TresholdLow:" + String(TempVal, 10));
+      SaveTresholdLow(TempVal);
 
     } else if (strncmp((const char *)data, "SaveTresholdHigh:", 17)==0)
     {
       char *strValue = (char*)(data + 17);
-      //TresholdHigh = atoi(strValue);
       int TempVal = atoi(strValue);
-      if(TempVal>28 && TempVal<35){
-        notifyClients("TresholdHigh:" + String(TempVal, 10));
-        SaveTresholdHigh(TempVal);
-      }
-      else{
-        TempVal=28;
-        notifyClients("TresholdHigh:" + String(TempVal, 10));
-        SaveTresholdHigh(TempVal);
-      }
-      //SaveTresholdHighToFlash(TresholdHigh);
-      //notifyClients("TresholdHigh:" + String(TresholdHigh, 10));
-      
+      if(TempVal<27)
+        TempVal=27;
+      else if(TempVal>35)
+        TempVal=35;
+
+      SaveTresholdHigh(TempVal);
+      notifyClients("TresholdHigh:" + String(TempVal, 10));  
     } 
   }
 }
@@ -109,9 +97,6 @@ void CabinetWebsocket::sendInitialData(AsyncWebSocketClient *client)
 
   String CabinetTemp = "temp:" + String(TempValue);
   client->text(CabinetTemp);
-
   notifyClients("TresholdLow:" + String(TresholdLow, 10));  // TresholLow en decimal, d'ou le 10 pour la base 10 
-
   notifyClients("TresholdHigh:" + String(TresholdHigh, 10));
-
 }

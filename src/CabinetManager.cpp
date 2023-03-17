@@ -120,12 +120,16 @@ void SetHeater(enum Power _Power)
 
 void SaveTresholdLow(int _THL)
 {
+  NVS_Lib.begin("STV",false);
   NVS_Lib.putInt("THL",_THL);
+  NVS_Lib.end();
   TresholdLow=_THL;
 }
 
 void SaveTresholdHigh(int _THH)
 {
+  NVS_Lib.begin("STV",false);
   NVS_Lib.putInt("THH",_THH);
+  NVS_Lib.end();
   TresholdHigh=_THH;
 }
